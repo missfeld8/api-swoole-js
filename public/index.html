@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
+    <title>Artigos</title>
+</head>
+<body>
+    <header>
+        <div>
+            <p class="full"> <i class="bi bi-droplet"><i class="bi bi-bookmark-fill"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"/>
+              </svg></i> Lista de Artigos</p>
+        </div>
+        <div>
+            <input id='busca' name='busca' placeholder="BUSCA" type="text" /> <button class="busca"><i id="lupa" class="bi bi-search"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg></i></button>
+        </div>
+    </header>
+    <main>
+
+        <section  class="container-section">Artigo
+            <button class="add-article" type="button" class="btn btn-primary" data-toggle="modal" data-target="#janelaModal">+</button>
+        </section>
+        <div class="list-article">
+            <div class="container-info">Lista dos Artigos
+                <div class="container-list" id="article-list">
+                    <div class="container-info-car">
+                        <p class="img"><img class="author_avatar" src="https://lh3.googleusercontent.com/pw/ABLVV86VsUWzUaK6jYEg8t8aErfNoWuhCFnXYMYQsfgjc4lxP4vBPsQ8aDJMZmqb8fB_xG_Flk6lVTzWs5771AfMvfn2fFtkor6FyVtvoGvFQOoJPkibuDuLKWEcvFXn2n86HRb3iYBXhQJetif7CzBfiKXe2MylW-AWX9MXuZ80IEYVljkSWUyGmdx3DTMQOKCDIWFoEIhuj0Vfo05-by2BHubnaE7xNRWzHDo-0ZSWHJqKGsIDeJHw5WSjPh8fe8ZPw5EmqLHxKVUU5FytSnoF-niQqJ4vl9fuLie67iaiVD-dre9pzMTk7QVhP14KPUT4OmdZ5HEslYiHmheFvSiIJEnBaSkMg1PPIUy24TYNqLeaGTm7dk3qL7U8Mdb9hv4lFVznMMivMtXWPLC2S8Zx8tmELFSCYyB3F0FJ5mNRh2tcB0zaEJVQaP8gh2lAXANt2z0wEhh6ccmXy6emvDM2-hBs0J6fhpcB2nAi3sjLpSwoEgdux8SshOK8y60vO3-HwWD1GaFiEoOWA9LReOCw8aPDevvwrsLNqZvyjI1AvkPBMT8JsY_T13hq4rYwKXECYwM1ipHUq8dKiYs7q6-Cxan2ehOfBMHendsP6gtPDDMkDL48AKco5-JprZ8iD8oHTivrIPSU1L5-ac_QXHlRrhR4Nm6TBPimSsPm6DAfxw6z3JSb1UGHlJretkqB0XZxT__cTGBG68atGw_HBCaf6_vtJrwGQcDuh9U7RQzr9fRx3x25sp_uJZx_ls1hKTcJIjPcdfxaddcicL5JIMet2jcqzqY4fiVBsOTlbXMVYySQBy_IFdNoHOu7HbNIdFcVAdpu26_jkAUryWKbrX48Of8hOcYsV_dJxECMBmfcXj1nNYyuDbSWt91zOQ9W6J1Y8RssMGbKyj8fQoZXwsDyuoFfMEuELoH_R6C7nBDw4Q0tKSDYQnFT60FWpvGIfdskRsOwx2pE4NSddbA=w924-h924-s-no-gm?authuser=2" alt="avatar1">
+                        </p>
+                        <p class="name-people">Mateus Missfeld</p>
+                        <p class="author">Antonio de Carvalho</p>
+                        <p class="year-article">15/02/1996</p>
+                        <p class="margin"></p>
+                        
+                    </div>
+                    <div class="container-info-car">
+                        <p class="img"><img class="author_avatar" src="https://lh3.googleusercontent.com/pw/ABLVV85u6m1cQuAS7WGh_ySE_qWIGE3rL76_lFp4jxDAwhRQxOa4JtZtlpOSAnTJq9JnQayhSdtybYWltLvw51eyPpzv-XmkXWftOMOj2G_VKdDybbDTnvUQHE2gQ5TAlUh4nm06he5S_8UfX6l2FdZkyu7Knmncz-g1BYhg24Wy8a651fvjBol4vTAasB7oH6XCUjteGERLY-39QQh9NSw-2OoTTqrFEaVAf7vyCOysszXnbJTKttQ2h2yIB0W_44ImOxL4DbFWVAEOp89_P4d4bt1bMe1fNdjRXMEP8DpV61Rn4SUgrVd7viJl0Iblr1EDf0QuuMHkCPz4CgX_8dLbbUCJS9RtiGRWKwyceJzzP4b_bX41wG4hPeSWNkc3DybBSeAm2YIcQPIWAuJFE850AQ11Zbq0bjLCN5ksYC-oX_2RpffYWtW8VXKoTS0MB5MwRelA-ElUfvwOrBapkYybiVe5RU5ECVS1Mgu5QndVimKyWjMD7wgAjuGXK_FH8BVIRCyWQZ5qmosuU6P4oIbhNsPgBBtswO1cGr5VEq9WFDv1_JBV4ZlXGq2YUChXJX962hmvzvW4K_GRSUoGzOYf2KDG-HQypvWXBDhRHWNRE-eDPbp-EHck6jthLIJU9iBOk5SleOHQB2l-UEBpJ0ISyFWX7btSHKsDOx-dJzH-YJO-iG7YRKiwOPAnbSVvpn7AQkjuSUQrtN5CH1cadvI8Iw4SZHC7vCx2tr7vBkR7tfn9K_MpsKmRjdqDlf_tYNGiq4XDL65ORot18EO78XDvUWpUnXxuibNig6cFLYdG_fDZxw2_L5fVtKKrQsFP2pp5IHXwO1JP7TexUghaHnbkXqY1HfP3q_8FQ5yHalc93Jut8i3KC5y2765fFptkAoQR9IHPrhPhJmm3t4kvYZn2fXpDHdhTPr6VSxjCsq1R-MKakJq0z6-XXlaQYA6qEQWApho6_9UwF6t2zw4=w720-h540-s-no-gm?authuser=2" alt="avatar">
+                        </p>
+                        <p class="name-people">Davi Oliveira</p>
+                        <p class="author">João de Barro</p>
+                        <p class="year-article">23/10/2007</p>
+                        <p class="margin"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-info"  >Detalhes do artigo
+            <div id="article_body" class="hidden">
+                <div class="container-desc">
+                    <div class="name" id="articles"></div>
+                    <div class="article-div">
+                        <ul>
+                            <li >Autor</li>
+                            <li class="artigo"  id="author"></li>
+                        </ul>
+                        <ul>
+                            <li >Data de postagem</li>
+                            <li class="artigo" id="created_at"></li>
+                        </ul>
+                    </div>
+                    <p class="articleBody" id="descricao">
+
+                    </p>
+                    <div class="edit-tag">
+                            <button class="edit"><i id="pen" class="bi bi-pencil-fill"> <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                            </svg></i>        Editar</button>
+                            <i id="tag2" class="bi bi-tag-fill">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-tag-fill" viewBox="0 0 16 16">
+                                <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                </svg>
+                            </i>
+                        </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </main>
+    <div class="modal fade" id="janelaModal">
+
+        <div class="modal-dialog modal-body modal-lg">
+
+                <div class="modal-content">
+
+                    <div class="modalHeader">
+
+                        <h3 class="modal-title">Novo Artigo</h3>
+
+                    </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <form class="col s12">
+                                  <div class="row">
+                                    <div class="input-field col s6">
+                                        <p>Adicionando um novo artigo</p>
+                                      <input id="add_avatar"  placeholder="URL foto" type="text" class="input-style validate">
+
+                                    </div>
+                                    <div class="input-field col s6">
+                                      <input id="add_nome" type="text" class="input-style validate" placeholder="Nome">
+                                    </div>
+                                  </div>
+                                <div class="row">
+                                    <div class="input-field col s6">
+                                      <input  id="add_author" type="text" class="input-style validate"
+                                      placeholder="Autor do artigo">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                      <textarea  id="add_article" type="text" class="input-style validate"
+                                      placeholder="Artigo" rows="10" cols="50%"></textarea>
+
+                                    </div>
+                                </div>
+
+
+                                </div>
+
+                        <div class="modal-footer">
+                                <button type="button" id="add" class="btn btn-secondary" data-bs-dismiss="modal" >ADD</button>
+                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#janelaModal" data-bs-dismiss="modal">Fechar</button>
+                        </div>
+                </div>
+        </div>
+    </div>
+<script src="index.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

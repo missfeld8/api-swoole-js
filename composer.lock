@@ -1,0 +1,59 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "60bb9c60ea980b137ac4eb52b9bdfb43",
+    "packages": [
+        {
+            "name": "swoolex/swoolex",
+            "version": "v2.5.26",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swoolex/swoolex.git",
+                "reference": "b6f9cacbbe4aeb3ba27ace28274761bf12daa598"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swoolex/swoolex/zipball/b6f9cacbbe4aeb3ba27ace28274761bf12daa598",
+                "reference": "b6f9cacbbe4aeb3ba27ace28274761bf12daa598",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3.0"
+            },
+            "require-dev": {
+                "swoole/ide-helper": "^4.8"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "小黄牛",
+                    "email": "1731223728@qq.com"
+                }
+            ],
+            "description": "the new swoolex",
+            "homepage": "https://www.sw-x.cn/",
+            "keywords": [
+                "sw-x",
+                "swoolex"
+            ],
+            "support": {
+                "issues": "https://github.com/swoolex/swoolex/issues",
+                "source": "https://github.com/swoolex/swoolex/tree/v2.5.26"
+            },
+            "time": "2022-05-13T06:58:46+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

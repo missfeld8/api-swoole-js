@@ -1,0 +1,5 @@
+{
+    "require": {
+        "swoole/swoole": "^2.5"
+    }
+}

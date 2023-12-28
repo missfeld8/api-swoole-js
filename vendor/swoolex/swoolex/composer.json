@@ -1,0 +1,22 @@
+{
+    "name": "swoolex/swoolex",
+    "description": "the new swoolex",
+    "version":"v2.5.26",
+    "keywords": [
+        "swoolex",
+        "sw-x"
+    ],
+    "homepage": "https://www.sw-x.cn/",
+    "authors": [
+        {
+            "name": "小黄牛",
+            "email": "1731223728@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.3.0"
+    },
+    "require-dev": {
+        "swoole/ide-helper": "^4.8"
+    }
+}
