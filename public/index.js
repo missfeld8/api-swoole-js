@@ -16,7 +16,7 @@ addArticleBtn.addEventListener('click', () => {
         article_body,
     };
 
-    fetch('http://localhost:9504/create', {
+    fetch('http://localhost:9505/create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -72,14 +72,14 @@ const addArticleInfo = (data) => {
 };
 
 const getAll = async () => {
-    const resp = await fetch('http://localhost:9504/get');
+    const resp = await fetch('http://localhost:9505/get');
     const data = await resp.json();
     articles = data;
     addArticleInfo(data);
 };
 
 const find = async (query) => {
-    const resp = await fetch(`http://localhost:9504/find?q=${query}`);
+    const resp = await fetch(`http://localhost:9505/find?q=${query}`);
     if (!resp.ok) {
         articles = [];
     } else {
