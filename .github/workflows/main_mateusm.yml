@@ -63,4 +63,4 @@ jobs:
           app-name: 'mateusm'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3B86C9835C7D4FB79EBA1EF582BC1037 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3B6BF925CE3B41CBA06E010781ADE3D4 }}
