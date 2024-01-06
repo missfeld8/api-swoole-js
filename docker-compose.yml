@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  swoole-app:
+    build:
+      context: .
+    ports:
+      - "9504:9504"
+    volumes:
+      - .:/app
