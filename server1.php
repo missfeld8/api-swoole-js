@@ -324,7 +324,7 @@ $router->post('/verify-user', function (Request $request, Response $response) us
 
 
 $server->on("start", function (Server $server) {
-    echo "OpenSwoole http server is started at http://0.0.0.0:9504\n";
+    echo "OpenSwoole http server is started at http://0.0.0.0/9504\n";
 });
 
 $server->on(
