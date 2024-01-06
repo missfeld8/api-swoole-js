@@ -20,7 +20,7 @@ use Swoole\Http\Response;
 $server = new Server("0.0.0.0",9504);
 
 $databaseConfig = [
-    'host' => 'http://20.2.242.0/',
+    'host' => 'localhost',
     'user' => 'mateus',
     'password' => 'Mm@#91284025',
     'database' => 'articlesTable',
