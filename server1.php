@@ -22,7 +22,7 @@ $server = new Server("0.0.0.0",8080);
 $databaseConfig = [
     'host' => 'localhost',
     'user' => 'mateus',
-    'password' => 'Mm@#91284025',
+    'password' => 'Mm@#231296',
     'database' => 'articlesTable',
 ];
 
