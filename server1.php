@@ -17,7 +17,30 @@ use Swoole\Http\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-$server = new Swoole\HTTP\Server("64.23.154.127", 3000, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
+$server = new Swoole\HTTP\Server("0.0.0.0", 3000, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
+
+$server->set([
+      'worker_num' => 8,
+      'reactor_num' => 2,
+      'open_tcp_keepalive' => 1, // enable TCP Keep-Alive check
+      'tcp_keepidle' => 3, // check if there is no data for 4s.
+      'tcp_keepinterval' => 1, // check if there is data every 1s
+      'tcp_keepcount' => 2, //close the connection if there is no data for 5 cycles.
+      'max_conn' => 10000,
+      'max_request' => 0,
+      // 'max_request_grace' => $max_request / 2,
+      'enable_reuse_port' => true,
+      'buffer_output_size' => 32 * 1024*10240,
+      'backlog' => 128,
+      'package_max_length' => 9999999,
+      'heartbeat_idle_time' => 30,
+      'heartbeat_check_interval' => 5,
+      'log_level' => 0,
+      // 'ssl_cert_file' => '/app/cert.crt',
+      // 'ssl_key_file' => '/app/key.key',
+      // /home/app/ssl/2019/ca.bundle
+      'open_http2_protocol' => true, // Enable HTTP2 protocol
+  ]);
 
 $databaseConfig = [
     'host' => 'localhost',
@@ -324,7 +347,7 @@ $router->post('/verify-user', function (Request $request, Response $response) us
 
 
 $server->on("start", function (Server $server) {
-    echo "OpenSwoole http server is started at http://64.23.154.127:3000\n";
+    echo "OpenSwoole http server is started at http://0.0.0.0:3000\n";
 });
 
 $server->on(
