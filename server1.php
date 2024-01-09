@@ -17,7 +17,7 @@ use Swoole\Http\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-$server = new Server("64.23.154.127",80);
+$server = new Server("0.0.0.0",80);
 
 $databaseConfig = [
     'host' => 'localhost',
@@ -324,7 +324,7 @@ $router->post('/verify-user', function (Request $request, Response $response) us
 
 
 $server->on("start", function (Server $server) {
-    echo "OpenSwoole http server is started at http://64.23.154.127:80\n";
+    echo "OpenSwoole http server is started at http://0.0.0.0:80\n";
 });
 
 $server->on(
