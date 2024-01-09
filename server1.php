@@ -17,7 +17,7 @@ use Swoole\Http\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-$server = new Server("0.0.0.0",3000);
+$server = new Swoole\HTTP\Server("0.0.0.0", 3000, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
 
 $databaseConfig = [
     'host' => 'localhost',
