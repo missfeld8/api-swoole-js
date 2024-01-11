@@ -3,7 +3,7 @@ version: '3.9'
 services:
   projeto-php:
     build: ./docker/php
-    container_name: projeto-php1
+    container_name: meu-projeto-php
     privileged: true
     volumes: 
       - ./:/var/www/
@@ -16,7 +16,7 @@ services:
   
   projeto-db:
     image: mysql:8.2.0
-    container_name: projeto-db1
+    container_name: meu-projeto-db
     restart: always
     privileged: true
     environment:

@@ -17,7 +17,7 @@ use Swoole\Http\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-$server = new Server("localhost",9505);
+$server = new Server("localhost", 9505);
 
 $databaseConfig = [
     'host' => 'localhost',
@@ -123,7 +123,7 @@ $router->get('/static/{file}', function (Request $request, Response $response) {
     if (isset($request->get['file'])) {
         $filename = __DIR__ . '/public/' . $request->get['file'];
     }
-    
+
     if (file_exists($filename)) {
         $response->header('Content-Type', mime_content_type($filename));
         $response->sendfile($filename);
@@ -131,16 +131,16 @@ $router->get('/static/{file}', function (Request $request, Response $response) {
         $response->status(404);
         $response->end("Not Found");
     }
-}); 
+});
 
 $router->post('/create', function (Request $request, Response $response) use ($db) {
     try {
-        $data = $request->post; 
+        $data = $request->post;
 
         // Verifica se os valores são válidos
         $requiredFields = ['name', 'article_body', 'author', 'author_avatar'];
         if (array_diff($requiredFields, array_keys($data)) === []) {
-            
+
             if (array_filter($data) === $data) {
                 $insertQuery = $db->prepare("INSERT INTO articles (name, article_body, author, author_avatar) VALUES (?, ?, ?, ?)");
                 $insertQuery->execute([$data['name'], $data['article_body'], $data['author'], $data['author_avatar']]);
@@ -169,7 +169,7 @@ $router->post('/create', function (Request $request, Response $response) use ($d
 $router->post('/update/{id}', function (Request $request, Response $response, $id) use ($db) {
     try {
         $data = json_decode($request->rawContent(), true);
-        
+
 
         // Verifica se a decodificação foi bem-sucedida
         if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
@@ -211,15 +211,15 @@ $router->post('/update/{id}', function (Request $request, Response $response, $i
 // excluir um registro
 $router->post('/delete/{id}', function (Request $request, Response $response, $id) use ($db) {
     try {
-        
+
         $checkExistenceQuery = $db->prepare("SELECT id FROM articles WHERE id = ?");
         $checkExistenceQuery->execute([$id]);
         $existingRecord = $checkExistenceQuery->fetch(PDO::FETCH_ASSOC);
-       
+
         if ($existingRecord) {
             $deleteQuery = $db->prepare("DELETE FROM articles WHERE id = ?");
             $deleteQuery->execute([$id]);
-        
+
             $response->header('Content-Type', 'application/json');
             $response->write(json_encode(['status' => 200, 'message' => 'Registro excluído com sucesso']));
         } else {
@@ -227,75 +227,75 @@ $router->post('/delete/{id}', function (Request $request, Response $response, $i
             $response->header('Content-Type', 'application/json');
             $response->write(json_encode(['status' => 404, 'message' => 'Registro não encontrado']));
         }
-        
-       
-       
 
 
-// Rota para criar um usuário
-$router->post('/create-user', function (Request $request, Response $response) use ($db) {
-    try {
-        $data = $request->post;
 
-        // Verifica se os valores são válidos
-        $requiredFields = ['email', 'password'];
-        if (array_diff($requiredFields, array_keys($data)) === []) {
-            // Verifica se os valores não estão vazios
-            if (array_filter($data) === $data) {
-                $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
 
-                $insertQuery = $db->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
-                $insertQuery->execute([$data['email'], $hashedPassword]);
 
-                $response->header('Content-Type', 'application/json; charset=utf-8');
-                $response->write(json_encode(['status' => 201, 'message' => 'Usuário criado com sucesso']));
-            } else {
-                $response->status(400); // Bad Request
-                $response->write(json_encode(['status' => 400, 'message' => 'Os valores não podem estar vazios']));
+        // Rota para criar um usuário
+        $router->post('/create-user', function (Request $request, Response $response) use ($db) {
+            try {
+                $data = $request->post;
+
+                // Verifica se os valores são válidos
+                $requiredFields = ['email', 'password'];
+                if (array_diff($requiredFields, array_keys($data)) === []) {
+                    // Verifica se os valores não estão vazios
+                    if (array_filter($data) === $data) {
+                        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                        $insertQuery = $db->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
+                        $insertQuery->execute([$data['email'], $hashedPassword]);
+
+                        $response->header('Content-Type', 'application/json; charset=utf-8');
+                        $response->write(json_encode(['status' => 201, 'message' => 'Usuário criado com sucesso']));
+                    } else {
+                        $response->status(400); // Bad Request
+                        $response->write(json_encode(['status' => 400, 'message' => 'Os valores não podem estar vazios']));
+                    }
+                } else {
+                    $response->status(400); // Bad Request
+                    $response->write(json_encode(['status' => 400, 'message' => 'Parâmetros inválidos']));
+                }
+            } catch (PDOException $e) {
+                $response->status(500);
+                $response->header('Content-Type', 'application/json');
+                $response->write(json_encode(['status' => 500, 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
+            } finally {
+                $response->end();
             }
-        } else {
-            $response->status(400); // Bad Request
-            $response->write(json_encode(['status' => 400, 'message' => 'Parâmetros inválidos']));
-        }
-    } catch (PDOException $e) {
-        $response->status(500);
-        $response->header('Content-Type', 'application/json');
-        $response->write(json_encode(['status' => 500, 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
-    } finally {
-        $response->end();
-    }
-});
+        });
 
-//verificar e autenticar usuário por e-mail e senha
-$router->post('/verify-user', function (Request $request, Response $response) use ($db) {
-    try {
-        $data = $request->post;
+        //verificar e autenticar usuário por e-mail e senha
+        $router->post('/verify-user', function (Request $request, Response $response) use ($db) {
+            try {
+                $data = $request->post;
 
-        $requiredFields = ['email', 'password'];
-        if (array_diff($requiredFields, array_keys($data)) === []) {
-            $query = $db->prepare("SELECT * FROM users WHERE email = ?");
-            $query->execute([$data['email']]);
-            $user = $query->fetch(PDO::FETCH_ASSOC);
+                $requiredFields = ['email', 'password'];
+                if (array_diff($requiredFields, array_keys($data)) === []) {
+                    $query = $db->prepare("SELECT * FROM users WHERE email = ?");
+                    $query->execute([$data['email']]);
+                    $user = $query->fetch(PDO::FETCH_ASSOC);
 
-            if ($user && password_verify($data['password'], $user['password'])) {
-                $response->header('Content-Type', 'application/json; charset=utf-8');
-                $response->write(json_encode(['status' => 200, 'message' => 'Usuário autenticado com sucesso']));
-            } else {
-                $response->status(401); // sem autorização
-                $response->write(json_encode(['status' => 401, 'message' => 'Credenciais inválidas']));
+                    if ($user && password_verify($data['password'], $user['password'])) {
+                        $response->header('Content-Type', 'application/json; charset=utf-8');
+                        $response->write(json_encode(['status' => 200, 'message' => 'Usuário autenticado com sucesso']));
+                    } else {
+                        $response->status(401); // sem autorização
+                        $response->write(json_encode(['status' => 401, 'message' => 'Credenciais inválidas']));
+                    }
+                } else {
+                    $response->status(400); // Bad Request
+                    $response->write(json_encode(['status' => 400, 'message' => 'Parâmetros inválidos']));
+                }
+            } catch (PDOException $e) {
+                $response->status(500);
+                $response->header('Content-Type', 'application/json');
+                $response->write(json_encode(['status' => 500, 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
+            } finally {
+                $response->end();
             }
-        } else {
-            $response->status(400); // Bad Request
-            $response->write(json_encode(['status' => 400, 'message' => 'Parâmetros inválidos']));
-        }
-    } catch (PDOException $e) {
-        $response->status(500);
-        $response->header('Content-Type', 'application/json');
-        $response->write(json_encode(['status' => 500, 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
-    } finally {
-        $response->end();
-    }
-});
+        });
 
 
 
