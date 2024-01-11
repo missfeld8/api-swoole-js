@@ -16,7 +16,7 @@ services:
   
   projeto-db:
     image: mysql:8.2.0
-    container_name: projeto-db
+    container_name: projeto-db1
     restart: always
     privileged: true
     environment:
