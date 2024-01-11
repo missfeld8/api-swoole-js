@@ -17,12 +17,12 @@ use Swoole\Http\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-$server = new Server("localhost",9504);
+$server = new Server("localhost",9505);
 
 $databaseConfig = [
     'host' => 'localhost',
     'user' => 'mateus',
-    'password' => 'Mm@#91284025',
+    'password' => 'Mm@#231296',
     'database' => 'articlesTable',
 ];
 
@@ -324,7 +324,7 @@ $router->post('/verify-user', function (Request $request, Response $response) us
 
 
 $server->on("start", function (Server $server) {
-    echo "OpenSwoole http server is started at http://localhost:9504\n";
+    echo "OpenSwoole http server is started at http://localhost:9505\n";
 });
 
 $server->on(
