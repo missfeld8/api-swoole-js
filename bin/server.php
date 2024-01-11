@@ -11,7 +11,8 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 
 require 'vendor/autoload.php';
-require __DIR__ . '/src/Router.php';
+require __DIR__ . '/../src/Router.php';
+
 
 use Swoole\Http\Server;
 use Swoole\Http\Request;
