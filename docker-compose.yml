@@ -3,7 +3,7 @@ version: '3.9'
 services:
   projeto-php:
     build: ./docker/php
-    container_name: projeto-php
+    container_name: projeto-php1
     privileged: true
     volumes: 
       - ./:/var/www/
