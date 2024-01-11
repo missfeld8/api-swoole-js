@@ -17,7 +17,7 @@ use Swoole\Http\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-$server = new Server("localhost", 9505);
+$server = new Server("localhost", 9504);
 
 $databaseConfig = [
     'host' => 'localhost',
@@ -324,7 +324,7 @@ $router->post('/delete/{id}', function (Request $request, Response $response, $i
 
 
 $server->on("start", function (Server $server) {
-    echo "OpenSwoole http server is started at http://localhost:9505\n";
+    echo "http server is started at http://localhost:9504\n";
 });
 
 $server->on(
