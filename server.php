@@ -18,7 +18,7 @@ use Swoole\Http\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-$server = new Server("0.0.0.0", 443);
+$server = new Server("0.0.0.0",80);
 
 $databaseConfig = [
     'host' => 'localhost',
@@ -325,7 +325,7 @@ $router->post('/delete/{id}', function (Request $request, Response $response, $i
 
 
 $server->on("start", function (Server $server) {
-    echo "http server is started at http://0.0.0.0:443\n";
+    echo "http server is started at http://0.0.0.0:80\n";
 });
 
 $server->on(
