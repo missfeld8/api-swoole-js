@@ -21,7 +21,7 @@ services:
     privileged: true
     environment:
       MYSQL_DATABASE: 'articlesTable'
-      MYSQL_USER: 'mateus'
+      MYSQL_USER: ''
       MYSQL_PASSWORD: 'Mm@#91284025'
       MYSQL_ROOT_PASSWORD: 'Mm@#91284025'
     ports:
