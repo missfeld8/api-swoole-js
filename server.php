@@ -75,6 +75,7 @@ $server->on(
 
 
             $router->get('/find/{id}', function (Request $request, Response $response) use ($db) {
+                echo "Entrou na rota /find/{id}";
                 try {
                     $response->header('Content-Type', 'application/json');
             
