@@ -74,7 +74,7 @@ $server->on(
             });
 
 
-            $router->get('/find/[id]', function (Request $request, Response $response) use ($db) {
+            $router->get('/find/{id}', function (Request $request, Response $response) use ($db) {
                 try {
                     $response->header('Content-Type', 'application/json');
             
@@ -86,7 +86,7 @@ $server->on(
                         $query = $db->prepare("SELECT * FROM articles WHERE id = ?");
                         $query->execute([$id]);
                         $result = $query->fetch(PDO::FETCH_ASSOC);
-
+            
                         // Adicione um ponto de depuração para verificar o resultado da consulta
                         var_dump($result);
             
@@ -114,6 +114,7 @@ $server->on(
                     $response->end();
                 }
             });
+            
             
 
             $router->post('/create', function (Request $request, Response $response) use ($db) {
