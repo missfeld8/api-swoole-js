@@ -231,7 +231,7 @@ $server->on(
                             $insertQuery->execute([$data['email'], $hashedPassword, $data['name']]);
 
                             $response->header('Content-Type', 'application/json; charset=utf-8');
-                            $response->write(json_encode(['status' => 201, 'message' => 'Usuário criado com sucesso']));
+                            $response->write(json_encode(['status' => 201, 'sucess' => 'Usuário OK', 'message' => 'Usuário criado com sucesso']));
                         } else {
                             $response->status(400); // Bad Request
                             $response->write(json_encode(['status' => 400, 'message' => 'Os valores não podem estar vazios']));
