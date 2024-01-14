@@ -129,7 +129,7 @@ $server->on(
                             $insertQuery->execute([$data['name'], $data['article_body'], $data['author'], $data['author_avatar'], $data['idUser']]);
             
                             $response->header('Content-Type', 'application/json; charset=utf-8');
-                            $response->write(json_encode(['status' => 201, 'message' => 'Registro criado com sucesso']));
+                            $response->write(json_encode(['status' => 201, 'sucess' => 'OK', 'message' => 'Registro criado com sucesso']));
                         } else {
                             $response->status(400); // Bad Request
                             $response->write(json_encode(['status' => 400, 'message' => 'Os valores não podem estar vazios']));
