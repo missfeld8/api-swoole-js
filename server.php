@@ -152,52 +152,60 @@ $server->on(
                     $response->end();
                 }
             });
-            
 
-            $router->post('/update/{id}', function (Request $request, Response $response, $id) use ($db) {
+
+            $router->post('/update', function (Request $request, Response $response) use ($db) {
                 try {
-                    $data = json_decode($request->rawContent(), true);
+                    $data = $request->post;
+                    $id = $data['id'] ?? null;
 
-
-                    // Verifica se a decodificação foi bem-sucedida
-                    if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-                        throw new Exception('Erro na decodificação JSON: ' . json_last_error_msg());
-                    }
-
-                    // Verifica se os dados são válidos
-                    $requiredFields = ['name', 'article_body', 'author', 'author_avatar'];
-                    if (array_diff($requiredFields, array_keys($data)) === []) {
-                        // Verifica se o registro existe antes de atualizar
+                    // Verifica se o ID foi fornecido na requisição
+                    if ($id !== null) {
                         $checkExistenceQuery = $db->prepare("SELECT id FROM articles WHERE id = ?");
                         $checkExistenceQuery->execute([$id]);
                         $existingRecord = $checkExistenceQuery->fetch(PDO::FETCH_ASSOC);
-
+            
+                        // Verifica se o registro existe antes de atualizar
                         if ($existingRecord) {
-                            $updateQuery = $db->prepare("UPDATE articles SET name = ?, article_body = ?, author = ?, author_avatar = ? WHERE id = ?");
-                            $updateQuery->execute([$data['name'], $data['article_body'], $data['author'], $data['author_avatar'], $id]);
+                            $requiredFields = ['name', 'article_body', 'author', 'author_avatar'];
 
-                            $response->json(['status' => 200, 'message' => 'Registro atualizado com sucesso']);
+                            // Verifica se todos os campos obrigatórios estão presentes na requisição
+                            if (array_diff($requiredFields, array_keys($data)) === []) {
+                                $updateQuery = $db->prepare("UPDATE articles SET name = ?, article_body = ?, author = ?, author_avatar = ? WHERE id = ?");
+                                $updateQuery->execute([$data['name'], $data['article_body'], $data['author'], $data['author_avatar'], $id]);
+
+                                $response->header('Content-Type', 'application/json');
+                                $response->write(json_encode(['status' => 'OK', 'message' => 'Registro atualizado com sucesso']));
+                            } else {
+                                $response->status(400); // Bad Request
+                                $response->write(json_encode(['status' => 'ERRO', 'message' => 'Parâmetros inválidos']));
+                            }
                         } else {
                             $response->status(404); // Not Found
-                            $response->json(['status' => 404, 'message' => 'Registro não encontrado']);
+                            $response->header('Content-Type', 'application/json');
+                            $response->write(json_encode(['status' => 'ERRO', 'message' => 'Registro não encontrado']));
                         }
                     } else {
                         $response->status(400); // Bad Request
-                        $response->json(['status' => 400, 'message' => 'Parâmetros inválidos']);
+                        $response->write(json_encode(['status' => 'ERRO', 'message' => 'Parâmetro {id} ausente ou inválido na requisição']));
                     }
+
+                    $response->end();
                 } catch (PDOException $e) {
                     $response->status(500);
-                    $response->json(['status' => 500, 'message' => 'Erro no banco de dados: ' . $e->getMessage()]);
-                } catch (Exception $e) {
-                    $response->status(400); // Bad Request
-                    $response->json(['status' => 400, 'message' => 'Erro na solicitação: ' . $e->getMessage()]);
+                    $response->write(json_encode(['status' => 'ERRO', 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
+                } finally {
+                    $response->end();
                 }
             });
 
-            $router->post(
-                '/delete/{id}',
-                function (Request $request, Response $response, $id) use ($db) {
-                    try {
+
+            $router->post('/delete', function (Request $request, Response $response) use ($db) {
+                try {
+                    $data = $request->post;
+                    $id = $data['id'] ?? null;
+
+                    if ($id !== null) {
                         $checkExistenceQuery = $db->prepare("SELECT id FROM articles WHERE id = ?");
                         $checkExistenceQuery->execute([$id]);
                         $existingRecord = $checkExistenceQuery->fetch(PDO::FETCH_ASSOC);
@@ -206,7 +214,6 @@ $server->on(
                             $deleteQuery = $db->prepare("DELETE FROM articles WHERE id = ?");
                             $deleteQuery->execute([$id]);
             
-                            // Aqui seria o equivalente ao reindexar o array após a exclusão
                             $response->header('Content-Type', 'application/json');
                             $response->write(json_encode(['status' => 'OK', 'message' => 'Registro excluído com sucesso']));
                         } else {
@@ -214,14 +221,20 @@ $server->on(
                             $response->header('Content-Type', 'application/json');
                             $response->write(json_encode(['status' => 'ERRO', 'message' => 'Registro não encontrado']));
                         }
-                    } catch (PDOException $e) {
-                        $response->status(500);
-                        $response->write(json_encode(['status' => 'ERRO', 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
-                    } finally {
-                        $response->end();
+                    } else {
+                        $response->status(400); // Bad Request
+                        $response->write(json_encode(['status' => 'ERRO', 'message' => 'Parâmetro {id} ausente ou inválido na requisição']));
                     }
+
+                    $response->end();
+                } catch (PDOException $e) {
+                    $response->status(500);
+                    $response->write(json_encode(['status' => 'ERRO', 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
+                } finally {
+                    $response->end();
                 }
-            );
+            });
+            
             
             
 
