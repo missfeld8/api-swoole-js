@@ -77,15 +77,19 @@ $server->on(
             $router->get('/find/{id}', function (Request $request, Response $response) use ($db) {
                 try {
                     $response->header('Content-Type', 'application/json');
-
+            
                     // Adicione um ponto de depuração para verificar o valor do parâmetro {id}
                     $id = $request->getAttribute('id');
-                    
+                    var_dump($id);
+            
                     if ($id !== null) {
                         $query = $db->prepare("SELECT * FROM articles WHERE id = ?");
                         $query->execute([$id]);
                         $result = $query->fetch(PDO::FETCH_ASSOC);
 
+                        // Adicione um ponto de depuração para verificar o resultado da consulta
+                        var_dump($result);
+            
                         if ($result !== false) {
                             $response->status(200);
                             $response->write(json_encode(['status' => 200, 'data' => $result]));
@@ -98,13 +102,19 @@ $server->on(
                         $response->write(json_encode(['status' => 400, 'message' => 'Parâmetro {id} ausente ou inválido na URL']));
                     }
                 } catch (PDOException $e) {
-                    
+                    // Adicione um ponto de depuração para verificar erros de banco de dados
+                    var_dump($e->getMessage());
+            
                     $response->status(500);
                     $response->write(json_encode(['status' => 500, 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
                 } finally {
+                    // Adicione um ponto de depuração para verificar se a execução atinge este ponto
+                    var_dump("Finalizando");
+            
                     $response->end();
                 }
             });
+            
 
             $router->post('/create', function (Request $request, Response $response) use ($db) {
                 try {
