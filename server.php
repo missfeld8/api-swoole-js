@@ -270,6 +270,7 @@ $server->on(
                     } else {
                         $response->status(400); // Bad Request
                         $response->write(json_encode(['status' => 400, 'message' => 'Parâmetros inválidos']));
+                        $response->end();
                     }
                 } catch (PDOException $e) {
                     $response->status(500);
