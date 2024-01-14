@@ -180,7 +180,7 @@ $server->on(
             });
 
             $router->post(
-                '/delete',
+                '/delete/{id}',
                 function (Request $request, Response $response, $id) use ($db) {
                     try {
                         $checkExistenceQuery = $db->prepare("SELECT id FROM articles WHERE id = ?");
@@ -191,22 +191,23 @@ $server->on(
                             $deleteQuery = $db->prepare("DELETE FROM articles WHERE id = ?");
                             $deleteQuery->execute([$id]);
             
-                            
+                            // Aqui seria o equivalente ao reindexar o array após a exclusão
                             $response->header('Content-Type', 'application/json');
                             $response->write(json_encode(['status' => 'OK', 'message' => 'Registro excluído com sucesso']));
                         } else {
-                            $response->status(404);
+                            $response->status(404); // Not Found
                             $response->header('Content-Type', 'application/json');
-                            $response->write(json_encode(['status' => 'ERRO', 'erro' => 'erro 404', 'message' => 'Registro não encontrado']));
+                            $response->write(json_encode(['status' => 'ERRO', 'message' => 'Registro não encontrado']));
                         }
                     } catch (PDOException $e) {
                         $response->status(500);
-                        $response->write(json_encode(['status' => 'ERRO', 'erro' => 'erro 500', 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
+                        $response->write(json_encode(['status' => 'ERRO', 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
                     } finally {
                         $response->end();
                     }
                 }
             );
+            
             
 
             // Rota para criar um usuário
