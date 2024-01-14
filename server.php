@@ -50,14 +50,14 @@ $server->on(
                 try {
                     $response->header('Content-Type', 'application/json');
 
-                    // Verifique se a conexão com o banco de dados foi estabelecida
+                    // Verifique se a conexão com o banco
                     if (!$db) {
                         throw new PDOException("Falha na conexão com o banco de dados.");
                     }
 
                     $query = $db->query("SELECT * FROM articles");
 
-                    // Verifique se a consulta foi executada com sucesso
+                    // Verifique se a consulta foi com sucesso
                     if ($query === false) {
                         throw new PDOException("Erro na execução da consulta SQL.");
                     }
@@ -78,11 +78,8 @@ $server->on(
                 try {
                     $query = $request->get;
 
-                    // Adicione um ponto de depuração para verificar o valor do parâmetro 'id'
-                    var_dump($query);
-
                     if (!isset($query['id'])) {
-                        $response->status(400); // Bad Request
+                        $response->status(400); 
                         $response->write(json_encode(['status' => 400, 'message' => 'Parâmetro {id} ausente na URL']));
                         return;
                     }
@@ -93,28 +90,23 @@ $server->on(
                     $query->execute([$id]);
                     $result = $query->fetch(PDO::FETCH_ASSOC);
 
-                    // Adicione um ponto de depuração para verificar o resultado da consulta
-                    var_dump($result);
 
                     if ($result !== false) {
                         $response->status(200);
                         $response->write(json_encode(['status' => 200, 'data' => $result]));
                     } else {
-                        $response->status(404); // Not Found
+                        $response->status(404); 
                         $response->write(json_encode(['status' => 404, 'message' => 'Registro não encontrado']));
                     }
 
                     $response->end();
                 } catch (PDOException $e) {
-                    // Adicione um ponto de depuração para verificar erros de banco de dados
-                    var_dump($e->getMessage());
-            
+                           
                     $response->status(500);
                     $response->write(json_encode(['status' => 500, 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
                     $response->end();
                 } finally {
-                    // Adicione um ponto de depuração para verificar se a execução atinge este ponto
-                    var_dump("Finalizando");
+                    
                 }
             });
             
@@ -125,23 +117,22 @@ $server->on(
                 try {
                     $data = $request->post;
 
-                    // Verifica se os valores são válidos
+                    
                     $requiredFields = ['name', 'article_body', 'author', 'author_avatar', 'idUsers'];
                     if (array_diff($requiredFields, array_keys($data)) === []) {
-            
+
                         if (array_filter($data) === $data) {
-                            // Modifica a query para incluir o ID do usuário
                             $insertQuery = $db->prepare("INSERT INTO articles (name, article_body, author, author_avatar, idUsers) VALUES (?, ?, ?, ?, ?)");
                             $insertQuery->execute([$data['name'], $data['article_body'], $data['author'], $data['author_avatar'], $data['idUsers']]);
             
                             $response->header('Content-Type', 'application/json; charset=utf-8');
                             $response->write(json_encode(['status' => 201, 'sucess' => 'OK', 'message' => 'Registro criado com sucesso']));
                         } else {
-                            $response->status(400); // Bad Request
+                            $response->status(400); 
                             $response->write(json_encode(['status' => 400, 'message' => 'Os valores não podem estar vazios']));
                         }
                     } else {
-                        $response->status(400); // Bad Request
+                        $response->status(400); 
                         $response->write(json_encode(['status' => 400, 'message' => 'Parâmetros inválidos']));
                     }
                 } catch (PDOException $e) {
@@ -159,17 +150,17 @@ $server->on(
                     $data = $request->post;
                     $id = $data['id'] ?? null;
 
-                    // Verifica se o ID foi fornecido na requisição
+                   
                     if ($id !== null) {
                         $checkExistenceQuery = $db->prepare("SELECT id FROM articles WHERE id = ?");
                         $checkExistenceQuery->execute([$id]);
                         $existingRecord = $checkExistenceQuery->fetch(PDO::FETCH_ASSOC);
             
-                        // Verifica se o registro existe antes de atualizar
+                        
                         if ($existingRecord) {
                             $requiredFields = ['name', 'article_body', 'author', 'author_avatar'];
 
-                            // Verifica se todos os campos obrigatórios estão presentes na requisição
+                            
                             if (array_diff($requiredFields, array_keys($data)) === []) {
                                 $updateQuery = $db->prepare("UPDATE articles SET name = ?, article_body = ?, author = ?, author_avatar = ? WHERE id = ?");
                                 $updateQuery->execute([$data['name'], $data['article_body'], $data['author'], $data['author_avatar'], $id]);
@@ -177,16 +168,16 @@ $server->on(
                                 $response->header('Content-Type', 'application/json');
                                 $response->write(json_encode(['status' => 'OK', 'message' => 'Registro atualizado com sucesso']));
                             } else {
-                                $response->status(400); // Bad Request
+                                $response->status(400); 
                                 $response->write(json_encode(['status' => 'ERRO', 'message' => 'Parâmetros inválidos']));
                             }
                         } else {
-                            $response->status(404); // Not Found
+                            $response->status(404); /
                             $response->header('Content-Type', 'application/json');
                             $response->write(json_encode(['status' => 'ERRO', 'message' => 'Registro não encontrado']));
                         }
                     } else {
-                        $response->status(400); // Bad Request
+                        $response->status(400); 
                         $response->write(json_encode(['status' => 'ERRO', 'message' => 'Parâmetro {id} ausente ou inválido na requisição']));
                     }
 
@@ -217,12 +208,12 @@ $server->on(
                             $response->header('Content-Type', 'application/json');
                             $response->write(json_encode(['status' => 'OK', 'message' => 'Registro excluído com sucesso']));
                         } else {
-                            $response->status(404); // Not Found
+                            $response->status(404); 
                             $response->header('Content-Type', 'application/json');
                             $response->write(json_encode(['status' => 'ERRO', 'message' => 'Registro não encontrado']));
                         }
                     } else {
-                        $response->status(400); // Bad Request
+                        $response->status(400); 
                         $response->write(json_encode(['status' => 'ERRO', 'message' => 'Parâmetro {id} ausente ou inválido na requisição']));
                     }
 
@@ -243,10 +234,9 @@ $server->on(
                 try {
                     $data = $request->post;
 
-                    // Verifica se os valores são válidos
+                    
                     $requiredFields = ['email', 'password', 'name'];
                     if (array_diff($requiredFields, array_keys($data)) === []) {
-                        // Verifica se os valores não estão vazios
                         if (array_filter($data) === $data) {
                             $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
 
@@ -256,11 +246,11 @@ $server->on(
                             $response->header('Content-Type', 'application/json; charset=utf-8');
                             $response->write(json_encode(['status' => 201, 'sucess' => 'Usuário OK', 'message' => 'Usuário criado com sucesso']));
                         } else {
-                            $response->status(400); // Bad Request
+                            $response->status(400); 
                             $response->write(json_encode(['status' => 400, 'message' => 'Os valores não podem estar vazios']));
                         }
                     } else {
-                        $response->status(400); // Bad Request
+                        $response->status(400); 
                         $response->write(json_encode(['status' => 400, 'message' => 'Parâmetros inválidos']));
                     }
                 } catch (PDOException $e) {
@@ -284,17 +274,17 @@ $server->on(
                         $user = $query->fetch(PDO::FETCH_ASSOC);
             
                         if ($user && password_verify($data['password'], $user['password'])) {
-                            // Remova a senha da resposta
+                            
                             unset($user['password']);
             
                             $response->header('Content-Type', 'application/json; charset=utf-8');
                             $response->write(json_encode(['status' => 200, 'success' => 'Usuário autenticado com sucesso', 'user' => $user]));
                         } else {
-                            $response->status(401); // sem autorização
+                            $response->status(401); 
                             $response->write(json_encode(['status' => 401, 'message' => 'Credenciais inválidas']));
                         }
                     } else {
-                        $response->status(400); // Bad Request
+                        $response->status(400); 
                         $response->write(json_encode(['status' => 400, 'message' => 'Parâmetros inválidos']));
                         $response->end();
                     }
