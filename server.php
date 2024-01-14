@@ -262,7 +262,7 @@ $server->on(
 
                         if ($user && password_verify($data['password'], $user['password'])) {
                             $response->header('Content-Type', 'application/json; charset=utf-8');
-                            $response->write(json_encode(['status' => 200, 'message' => 'Usuário autenticado com sucesso']));
+                            $response->write(json_encode(['status' => 200, "sucess" => "Usuário OK", 'message' => 'Usuário autenticado com sucesso']));
                         } else {
                             $response->status(401); // sem autorização
                             $response->write(json_encode(['status' => 401, 'message' => 'Credenciais inválidas']));
