@@ -80,15 +80,11 @@ $server->on(
 
                     // Adicione um ponto de depuração para verificar o valor do parâmetro {id}
                     $id = $request->getAttribute('id');
-                    var_dump($id);
-
+                    
                     if ($id !== null) {
                         $query = $db->prepare("SELECT * FROM articles WHERE id = ?");
                         $query->execute([$id]);
                         $result = $query->fetch(PDO::FETCH_ASSOC);
-
-                        // Adicione um ponto de depuração para verificar o resultado da consulta
-                        var_dump($result);
 
                         if ($result !== false) {
                             $response->status(200);
@@ -102,15 +98,10 @@ $server->on(
                         $response->write(json_encode(['status' => 400, 'message' => 'Parâmetro {id} ausente ou inválido na URL']));
                     }
                 } catch (PDOException $e) {
-                    // Adicione um ponto de depuração para verificar erros de banco de dados
-                    var_dump($e->getMessage());
-
+                    
                     $response->status(500);
                     $response->write(json_encode(['status' => 500, 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
                 } finally {
-                    // Adicione um ponto de depuração para verificar se a execução atinge este ponto
-                    var_dump("Finalizando");
-
                     $response->end();
                 }
             });
@@ -125,7 +116,7 @@ $server->on(
             
                         if (array_filter($data) === $data) {
                             // Modifica a query para incluir o ID do usuário
-                            $insertQuery = $db->prepare("INSERT INTO articles (name, article_body, author, author_avatar, idUser) VALUES (?, ?, ?, ?, ?)");
+                            $insertQuery = $db->prepare("INSERT INTO articles (name, article_body, author, author_avatar, idUsers) VALUES (?, ?, ?, ?, ?)");
                             $insertQuery->execute([$data['name'], $data['article_body'], $data['author'], $data['author_avatar'], $data['idUsers']]);
             
                             $response->header('Content-Type', 'application/json; charset=utf-8');
