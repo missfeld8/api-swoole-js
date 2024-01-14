@@ -74,7 +74,7 @@ $server->on(
             });
 
 
-            $router->get('/find/{id}', function (Request $request, Response $response) use ($db) {
+            $router->get('/find/[id]', function (Request $request, Response $response) use ($db) {
                 try {
                     $response->header('Content-Type', 'application/json');
             
