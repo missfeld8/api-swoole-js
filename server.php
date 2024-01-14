@@ -180,33 +180,34 @@ $server->on(
             });
 
             $router->post(
-                '/delete/{id}',
+                '/delete',
                 function (Request $request, Response $response, $id) use ($db) {
                     try {
-
                         $checkExistenceQuery = $db->prepare("SELECT id FROM articles WHERE id = ?");
                         $checkExistenceQuery->execute([$id]);
                         $existingRecord = $checkExistenceQuery->fetch(PDO::FETCH_ASSOC);
-
+            
                         if ($existingRecord) {
                             $deleteQuery = $db->prepare("DELETE FROM articles WHERE id = ?");
                             $deleteQuery->execute([$id]);
-
+            
+                            
                             $response->header('Content-Type', 'application/json');
-                            $response->write(json_encode(['status' => 200, 'message' => 'Registro excluído com sucesso']));
+                            $response->write(json_encode(['status' => 'OK', 'message' => 'Registro excluído com sucesso']));
                         } else {
-                            $response->status(404); // erro
+                            $response->status(404);
                             $response->header('Content-Type', 'application/json');
-                            $response->write(json_encode(['status' => 404, 'message' => 'Registro não encontrado']));
+                            $response->write(json_encode(['status' => 'ERRO', 'erro' => 'erro 404', 'message' => 'Registro não encontrado']));
                         }
                     } catch (PDOException $e) {
                         $response->status(500);
-                        $response->write("Erro no banco de dados: " . $e->getMessage());
+                        $response->write(json_encode(['status' => 'ERRO', 'erro' => 'erro 500', 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
                     } finally {
                         $response->end();
                     }
                 }
             );
+            
 
             // Rota para criar um usuário
             $router->post('/create-user', function (Request $request, Response $response) use ($db) {
