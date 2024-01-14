@@ -261,6 +261,9 @@ $server->on(
                         $user = $query->fetch(PDO::FETCH_ASSOC);
             
                         if ($user && password_verify($data['password'], $user['password'])) {
+                            // Remova a senha da resposta
+                            unset($user['password']);
+            
                             $response->header('Content-Type', 'application/json; charset=utf-8');
                             $response->write(json_encode(['status' => 200, 'success' => 'Usuário autenticado com sucesso', 'user' => $user]));
                         } else {
@@ -280,6 +283,7 @@ $server->on(
                     $response->end();
                 }
             });
+            
 
             $router->resolve($request, $response);
         } catch (Exception $e) {
