@@ -172,7 +172,7 @@ $server->on(
                                 $response->write(json_encode(['status' => 'ERRO', 'message' => 'Parâmetros inválidos']));
                             }
                         } else {
-                            $response->status(404); /
+                            $response->status(404); 
                             $response->header('Content-Type', 'application/json');
                             $response->write(json_encode(['status' => 'ERRO', 'message' => 'Registro não encontrado']));
                         }
