@@ -253,16 +253,16 @@ $server->on(
             $router->post('/verify-user', function (Request $request, Response $response) use ($db) {
                 try {
                     $data = $request->post;
-
+            
                     $requiredFields = ['email', 'password'];
                     if (array_diff($requiredFields, array_keys($data)) === []) {
-                        $query = $db->prepare("SELECT * FROM users WHERE email = ?");
+                        $query = $db->prepare("SELECT id, name, email, password FROM users WHERE email = ?");
                         $query->execute([$data['email']]);
                         $user = $query->fetch(PDO::FETCH_ASSOC);
-
+            
                         if ($user && password_verify($data['password'], $user['password'])) {
                             $response->header('Content-Type', 'application/json; charset=utf-8');
-                            $response->write(json_encode(['status' => 200, "sucess" => "Usuário OK", 'message' => 'Usuário autenticado com sucesso']));
+                            $response->write(json_encode(['status' => 200, 'success' => 'Usuário autenticado com sucesso', 'user' => $user]));
                         } else {
                             $response->status(401); // sem autorização
                             $response->write(json_encode(['status' => 401, 'message' => 'Credenciais inválidas']));
