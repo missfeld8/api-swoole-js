@@ -120,15 +120,16 @@ $server->on(
                     $data = $request->post;
 
                     // Verifica se os valores são válidos
-                    $requiredFields = ['name', 'article_body', 'author', 'author_avatar'];
+                    $requiredFields = ['name', 'article_body', 'author', 'author_avatar', 'idUser'];
                     if (array_diff($requiredFields, array_keys($data)) === []) {
-
+            
                         if (array_filter($data) === $data) {
-                            $insertQuery = $db->prepare("INSERT INTO articles (name, article_body, author, author_avatar) VALUES (?, ?, ?, ?)");
-                            $insertQuery->execute([$data['name'], $data['article_body'], $data['author'], $data['author_avatar']]);
-
+                            // Modifica a query para incluir o ID do usuário
+                            $insertQuery = $db->prepare("INSERT INTO articles (name, article_body, author, author_avatar, idUser) VALUES (?, ?, ?, ?, ?)");
+                            $insertQuery->execute([$data['name'], $data['article_body'], $data['author'], $data['author_avatar'], $data['idUser']]);
+            
                             $response->header('Content-Type', 'application/json; charset=utf-8');
-                            $response->write(json_encode(['status' => 201, 'sucess' => 'Ok', 'message' => 'Registro criado com sucesso']));
+                            $response->write(json_encode(['status' => 201, 'message' => 'Registro criado com sucesso']));
                         } else {
                             $response->status(400); // Bad Request
                             $response->write(json_encode(['status' => 400, 'message' => 'Os valores não podem estar vazios']));
@@ -145,6 +146,7 @@ $server->on(
                     $response->end();
                 }
             });
+            
 
             $router->post('/update/{id}', function (Request $request, Response $response, $id) use ($db) {
                 try {
