@@ -190,7 +190,7 @@ $server->on(
                         $response->end();
                     
                 }
-            });
+                };
 
 
             $router->post('/delete', function (Request $request, Response $response) use ($db) {
