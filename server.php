@@ -109,8 +109,7 @@ $server->on(
                     
                 }
             });
-            
-            
+                       
             
 
             $router->post('/create', function (Request $request, Response $response) use ($db) {
@@ -225,12 +224,8 @@ $server->on(
                         $response->end();
                     }
                 }
-            });
-            
-            
-            
-            
-            
+            });        
+                                      
 
             // Rota para criar um usuário
             $router->post('/create-user', function (Request $request, Response $response) use ($db) {
