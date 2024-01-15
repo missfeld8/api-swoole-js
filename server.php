@@ -186,7 +186,9 @@ $server->on(
                     $response->status(500);
                     $response->write(json_encode(['status' => 'ERRO', 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
                 } finally {
-                    $response->end();
+                    if (!$response->ended) {
+                        $response->end();
+                    
                 }
             });
 
@@ -195,36 +197,53 @@ $server->on(
                 try {
                     $data = $request->post;
                     $id = $data['id'] ?? null;
-
+            
+                    // Verifica se o ID foi fornecido na requisição
                     if ($id !== null) {
+                        var_dump("ID fornecido: " . $id);
+            
                         $checkExistenceQuery = $db->prepare("SELECT id FROM articles WHERE id = ?");
                         $checkExistenceQuery->execute([$id]);
                         $existingRecord = $checkExistenceQuery->fetch(PDO::FETCH_ASSOC);
             
+                        // Verifica se o registro existe antes de excluir
                         if ($existingRecord) {
+                            var_dump("Registro encontrado para exclusão");
+            
                             $deleteQuery = $db->prepare("DELETE FROM articles WHERE id = ?");
                             $deleteQuery->execute([$id]);
+
+                            var_dump("Registro excluído com sucesso");
             
                             $response->header('Content-Type', 'application/json');
                             $response->write(json_encode(['status' => 'OK', 'message' => 'Registro excluído com sucesso']));
                         } else {
-                            $response->status(404); 
+                            var_dump("Registro não encontrado para exclusão");
+
+                            $response->status(404); // Not Found
                             $response->header('Content-Type', 'application/json');
                             $response->write(json_encode(['status' => 'ERRO', 'message' => 'Registro não encontrado']));
                         }
                     } else {
-                        $response->status(400); 
+                        var_dump("ID não fornecido ou inválido");
+
+                        $response->status(400); // Bad Request
                         $response->write(json_encode(['status' => 'ERRO', 'message' => 'Parâmetro {id} ausente ou inválido na requisição']));
                     }
-
-                    $response->end();
                 } catch (PDOException $e) {
+                    var_dump("Erro no banco de dados: " . $e->getMessage());
+            
                     $response->status(500);
                     $response->write(json_encode(['status' => 'ERRO', 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
                 } finally {
-                    $response->end();
+                    // Verifica se a resposta já foi encerrada
+                    if (!$response->ended) {
+                        var_dump("Finalizando resposta");
+                        $response->end();
+                    }
                 }
             });
+            
             
             
             
