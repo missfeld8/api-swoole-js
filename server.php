@@ -121,30 +121,21 @@ $server->on(
                         if (array_filter($data) === $data) {
                             $insertQuery = $db->prepare("INSERT INTO articles (name, article_body, author, author_avatar, idUsers) VALUES (?, ?, ?, ?, ?)");
                             $insertQuery->execute([$data['name'], $data['article_body'], $data['author'], $data['author_avatar'], $data['idUsers']]);
-
-                            // Adicionando var_dump para depuração
-                            var_dump("Registro criado com sucesso");
-                            
+                           
                             $response->header('Content-Type', 'application/json; charset=utf-8');
                             $response->write(json_encode(['status' => 201, 'success' => 'OK', 'message' => 'Registro criado com sucesso']));
                         } else {
-                            // Adicionando var_dump para depuração
-                            var_dump("Os valores não podem estar vazios");
-
+                        
                             $response->status(400);
                             $response->write(json_encode(['status' => 400, 'message' => 'Os valores não podem estar vazios']));
                         }
                     } else {
-                        // Adicionando var_dump para depuração
-                        var_dump("Parâmetros inválidos");
-
+                     
                         $response->status(400);
                         $response->write(json_encode(['status' => 400, 'message' => 'Parâmetros inválidos']));
                     }
                 } catch (PDOException $e) {
-                    // Adicionando var_dump para depuração
-                    var_dump("Erro no banco de dados: " . $e->getMessage());
-            
+                             
                     $response->status(500);
                     $response->header('Content-Type', 'application/json');
                     $response->write(json_encode(['status' => 500, 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
