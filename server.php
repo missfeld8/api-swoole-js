@@ -149,48 +149,44 @@ $server->on(
                 try {
                     $data = $request->post;
                     $id = $data['id'] ?? null;
-
-                   
+            
                     if ($id !== null) {
                         $checkExistenceQuery = $db->prepare("SELECT id FROM articles WHERE id = ?");
                         $checkExistenceQuery->execute([$id]);
                         $existingRecord = $checkExistenceQuery->fetch(PDO::FETCH_ASSOC);
             
-                        
                         if ($existingRecord) {
                             $requiredFields = ['name', 'article_body', 'author', 'author_avatar'];
-
-                            
+            
                             if (array_diff($requiredFields, array_keys($data)) === []) {
                                 $updateQuery = $db->prepare("UPDATE articles SET name = ?, article_body = ?, author = ?, author_avatar = ? WHERE id = ?");
                                 $updateQuery->execute([$data['name'], $data['article_body'], $data['author'], $data['author_avatar'], $id]);
-
+            
                                 $response->header('Content-Type', 'application/json');
                                 $response->write(json_encode(['status' => 'OK', 'message' => 'Registro atualizado com sucesso']));
                             } else {
-                                $response->status(400); 
+                                $response->status(400);
                                 $response->write(json_encode(['status' => 'ERRO', 'message' => 'Parâmetros inválidos']));
                             }
                         } else {
-                            $response->status(404); 
+                            $response->status(404);
                             $response->header('Content-Type', 'application/json');
                             $response->write(json_encode(['status' => 'ERRO', 'message' => 'Registro não encontrado']));
                         }
                     } else {
-                        $response->status(400); 
+                        $response->status(400);
                         $response->write(json_encode(['status' => 'ERRO', 'message' => 'Parâmetro {id} ausente ou inválido na requisição']));
                     }
-
-                    $response->end();
                 } catch (PDOException $e) {
                     $response->status(500);
                     $response->write(json_encode(['status' => 'ERRO', 'message' => 'Erro no banco de dados: ' . $e->getMessage()]));
                 } finally {
                     if (!$response->ended) {
                         $response->end();
-                    
+                    }
                 }
-                };
+            });
+            
 
 
             $router->post('/delete', function (Request $request, Response $response) use ($db) {
