@@ -303,6 +303,7 @@ $server->on(
                 }
             });
             
+            
 
             $router->resolve($request, $response);
         } catch (Exception $e) {
